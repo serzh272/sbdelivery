@@ -10,7 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import ru.skillbranch.sbdelivery.ui.theme.SBDeliveryTheme
+import ru.skillbranch.sbdelivery.presentation.ui.theme.SBDeliveryTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

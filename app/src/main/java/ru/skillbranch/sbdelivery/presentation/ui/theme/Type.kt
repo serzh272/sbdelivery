@@ -1,4 +1,4 @@
-package ru.skillbranch.sbdelivery.ui.theme
+package ru.skillbranch.sbdelivery.presentation.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

@@ -1,4 +1,4 @@
-package ru.skillbranch.sbdelivery.ui.theme
+package ru.skillbranch.sbdelivery.presentation.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
