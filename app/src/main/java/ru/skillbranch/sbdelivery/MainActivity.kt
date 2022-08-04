@@ -12,6 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigation
+import androidx.navigation.compose.rememberNavController
+import ru.skillbranch.sbdelivery.presentation.main.MainScreen
+import ru.skillbranch.sbdelivery.presentation.navigation.RootNavigation
 import androidx.compose.ui.unit.dp
 import ru.skillbranch.sbdelivery.presentation.component.TiledSurface
 import ru.skillbranch.sbdelivery.presentation.ui.theme.SBDeliveryTheme
@@ -22,42 +28,20 @@ class MainActivity : ComponentActivity() {
         setContent {
             SBDeliveryTheme {
                 // A surface container using the 'background' color from the theme
-                Scaffold(
-                    modifier = Modifier.fillMaxSize(),
-                    drawerContent = {
-                        
-                    }
-                ) {
-                    TiledSurface(
-                        tileRes = R.drawable.tile_background,
-                        modifier = Modifier.padding(it)
-                    ) {
-                        Text("Android")
-                    }
+                val navController = rememberNavController()
+                NavHost(navController, startDestination = RootNavigation.Main.route, Modifier.fillMaxSize()) {
+                    composable(RootNavigation.Main.route) { MainScreen(navController) }
+                    composable(RootNavigation.Login.route) {/*TODO Place Splash Screen*/}
                 }
-
             }
         }
     }
 }
-
 @Preview
 @Composable
 fun MainScreenPreview() {
     SBDeliveryTheme {
-        // A surface container using the 'background' color from the theme
-        TiledSurface(
-            tileRes = R.drawable.tile_background,
-            modifier = Modifier.fillMaxSize()
-        ) {
-            Text(
-                "Android",
-                modifier = Modifier
-                    .padding(40.dp)
-                    .wrapContentWidth(align = Alignment.CenterHorizontally)
-            )
-        }
+        val navController = rememberNavController()
+        MainScreen(navController)
     }
 }
-
-
