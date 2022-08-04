@@ -1,4 +1,4 @@
-package ru.skillbranch.sbdelivery.data.remote.api.request
+package ru.skillbranch.sbdelivery.data.datasource.remote.api.request
 
 data class RegisterDataDto(
     val firstName: String,

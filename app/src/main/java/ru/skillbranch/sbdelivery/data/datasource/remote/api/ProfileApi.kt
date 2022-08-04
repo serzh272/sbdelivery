@@ -1,8 +1,8 @@
-package ru.skillbranch.sbdelivery.data.remote.api
+package ru.skillbranch.sbdelivery.data.datasource.remote.api
 
 import retrofit2.Response
 import retrofit2.http.GET
-import ru.skillbranch.sbdelivery.data.remote.api.response.ProfileInfoDto
+import ru.skillbranch.sbdelivery.data.datasource.remote.api.response.ProfileInfoDto
 
 interface ProfileApi {
 

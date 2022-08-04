@@ -1,12 +1,12 @@
-package ru.skillbranch.sbdelivery.data.remote.api
+package ru.skillbranch.sbdelivery.data.datasource.remote.api
 
 import retrofit2.Response
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
-import ru.skillbranch.sbdelivery.data.remote.api.request.RegisterDataDto
-import ru.skillbranch.sbdelivery.data.remote.api.response.AccessTokenDto
-import ru.skillbranch.sbdelivery.data.remote.api.response.ProfileInfoDto
+import ru.skillbranch.sbdelivery.data.datasource.remote.api.request.RegisterDataDto
+import ru.skillbranch.sbdelivery.data.datasource.remote.api.response.AccessTokenDto
+import ru.skillbranch.sbdelivery.data.datasource.remote.api.response.ProfileInfoDto
 
 interface AuthApi {
 

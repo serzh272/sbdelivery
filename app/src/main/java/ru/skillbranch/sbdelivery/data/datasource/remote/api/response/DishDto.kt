@@ -1,4 +1,4 @@
-package ru.skillbranch.sbdelivery.data.remote.api.response
+package ru.skillbranch.sbdelivery.data.datasource.remote.api.response
 
 data class DishDto(
     val id: String,

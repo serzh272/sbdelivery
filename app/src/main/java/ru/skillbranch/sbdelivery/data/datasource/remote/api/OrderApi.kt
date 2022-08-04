@@ -1,11 +1,11 @@
-package ru.skillbranch.sbdelivery.data.remote.api
+package ru.skillbranch.sbdelivery.data.datasource.remote.api
 
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
-import ru.skillbranch.sbdelivery.data.remote.api.response.CategoryDto
-import ru.skillbranch.sbdelivery.data.remote.api.response.DishDto
-import ru.skillbranch.sbdelivery.data.remote.api.response.OrderStatusDto
+import ru.skillbranch.sbdelivery.data.datasource.remote.api.response.CategoryDto
+import ru.skillbranch.sbdelivery.data.datasource.remote.api.response.DishDto
+import ru.skillbranch.sbdelivery.data.datasource.remote.api.response.OrderStatusDto
 
 interface OrderApi {
 
