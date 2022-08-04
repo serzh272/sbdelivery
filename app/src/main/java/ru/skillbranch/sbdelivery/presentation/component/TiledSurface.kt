@@ -7,6 +7,7 @@ import androidx.annotation.DrawableRes
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
@@ -30,12 +31,14 @@ fun Modifier.tileBackground(@DrawableRes drawableRes: Int, localResources: Resou
         drawableRes,
         option
     ).asImageBitmap()
-    return drawBehind {
+    return clipToBounds()
+            .drawBehind {
         val paint = Paint().asFrameworkPaint().apply {
             shader = ImageShader(pattern, TileMode.Repeated, TileMode.Repeated)
         }
         drawIntoCanvas {
             it.nativeCanvas.drawPaint(paint)
+            paint.reset()
         }
     }
 }
