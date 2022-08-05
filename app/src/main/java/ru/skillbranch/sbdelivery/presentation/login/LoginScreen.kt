@@ -1,4 +1,4 @@
-package ru.skillbranch.sbdelivery.presentation.navigation.login
+package ru.skillbranch.sbdelivery.presentation.login
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.wrapContentSize

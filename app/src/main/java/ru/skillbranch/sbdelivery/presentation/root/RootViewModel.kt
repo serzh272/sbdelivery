@@ -1,4 +1,4 @@
-package ru.skillbranch.sbdelivery.presentation.main
+package ru.skillbranch.sbdelivery.presentation.root
 
 import androidx.lifecycle.ViewModel
 

@@ -7,9 +7,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import ru.skillbranch.sbdelivery.presentation.main.AppScreen
-import ru.skillbranch.sbdelivery.presentation.navigation.login.SignInScreen
-import ru.skillbranch.sbdelivery.presentation.navigation.login.SignUpScreen
+import ru.skillbranch.sbdelivery.presentation.login.SignInScreen
+import ru.skillbranch.sbdelivery.presentation.login.SignUpScreen
+import ru.skillbranch.sbdelivery.presentation.root.AppScreen
 import ru.skillbranch.sbdelivery.presentation.splash.SplashScreen
 
 const val ROOT_ROUTE = "root"

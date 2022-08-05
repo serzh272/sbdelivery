@@ -1,4 +1,4 @@
-package ru.skillbranch.sbdelivery.presentation.main
+package ru.skillbranch.sbdelivery.presentation.root
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize
@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,19 +20,21 @@ import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.launch
 import ru.skillbranch.sbdelivery.R
 import ru.skillbranch.sbdelivery.presentation.component.DrawerComponent
+import ru.skillbranch.sbdelivery.presentation.main.MainViewModel
 import ru.skillbranch.sbdelivery.presentation.navigation.navgraph.MainNavGraph
 
 @Composable
-fun AppScreen(rootNavController: NavHostController, viewModel: RootViewModel = viewModel()) {
+fun AppScreen(rootNavController: NavHostController, viewModel: MainViewModel = viewModel()) {
     val scaffoldState = rememberScaffoldState()
     val navController = rememberNavController()
     val scope = rememberCoroutineScope()
+    val drawerState by viewModel.drawerState.collectAsState()
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
             TopAppBar {
                 IconButton(onClick = {
-                    scope.launch{
+                    scope.launch {
                         scaffoldState.drawerState.open()
                     }
                 }) {
@@ -43,7 +47,9 @@ fun AppScreen(rootNavController: NavHostController, viewModel: RootViewModel = v
             }
         },
         drawerContent = {
-            DrawerComponent(navController)
+            DrawerComponent(navController,
+                drawerState = drawerState,
+                onLogoutClick = {/*TODO*/ })
         },
         modifier = Modifier.fillMaxSize()
     ) {
@@ -115,6 +121,16 @@ fun OrdersScreen(navController: NavHostController) {
 fun NotificationsScreen(navController: NavHostController) {
     Text(
         text = "Notifications Screen",
+        modifier = Modifier
+            .fillMaxSize()
+            .wrapContentSize(align = Alignment.Center)
+    )
+}
+
+@Composable
+fun AboutScreen(navController: NavHostController) {
+    Text(
+        text = "About Screen",
         modifier = Modifier
             .fillMaxSize()
             .wrapContentSize(align = Alignment.Center)

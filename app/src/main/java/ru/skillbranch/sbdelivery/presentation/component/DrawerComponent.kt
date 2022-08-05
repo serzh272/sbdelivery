@@ -2,10 +2,12 @@ package ru.skillbranch.sbdelivery.presentation.component
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -14,7 +16,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -22,86 +26,83 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.rememberNavController
 import ru.skillbranch.sbdelivery.R
-import ru.skillbranch.sbdelivery.presentation.navigation.navgraph.MainNavigation
+import ru.skillbranch.sbdelivery.domain.model.DestinationWithCounter
+import ru.skillbranch.sbdelivery.domain.model.DrawerState
+import ru.skillbranch.sbdelivery.presentation.navigation.navgraph.MainNavigationDestination
 import ru.skillbranch.sbdelivery.presentation.ui.theme.SBDeliveryTheme
 
 
 @Composable
-fun DrawerComponent(navController: NavHostController = rememberNavController()) = Column(
+fun DrawerComponent(navController: NavHostController = rememberNavController(), drawerState: DrawerState?, onLogoutClick: () -> Unit) = Column(
     modifier = Modifier
         .fillMaxSize()
 ) {
     Row(
         Modifier
+            .tileBackground(R.drawable.tile_background, LocalContext.current.resources)
+            .padding(20.dp)
             .height(170.dp)
             .fillMaxWidth()
-            .tileBackground(R.drawable.tile_background, LocalContext.current.resources)
     ) {
-        Text(text = "Сидоров Иван")
+        Column(
+            modifier = Modifier
+                .wrapContentWidth(Alignment.Start)
+                .align(Alignment.Bottom)
+        ) {
+            Text(text = drawerState?.fullName ?: "Noname")
+            drawerState?.email?.let { Text(text = it,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Light) }
+        }
+        Spacer(modifier = Modifier.weight(1f))
+        IconButton(
+            onClick = { /*TODO*/ },
+            modifier = Modifier
+                .wrapContentWidth(Alignment.End)
+                .align(Alignment.Bottom)
+        ) {
+            Image(
+                imageVector = ImageVector.vectorResource(id = R.drawable.ic_logout_24),
+                contentDescription = "Navigate Up Button"
+            )
+        }
     }
     Column(
         Modifier
-            .fillMaxSize()
             .background(Color(LocalContext.current.getColor(R.color.main)))
+            .fillMaxSize()
+            .padding(bottom = 12.dp)
     ) {
         val navOptions = NavOptions.Builder()
             .setLaunchSingleTop(true)
             .build()
-        DrawerItem(text = "Home", iconRes = R.drawable.ic_home_24, counterText = null, onClick = {
-            navController.popBackStack(route = MainNavigation.Main.route, inclusive = false)
-        })
-        DrawerItem(text = "Menu", iconRes = R.drawable.ic_menu_24, counterText = null, onClick = {
-            navController.navigate(
-                route = MainNavigation.Menu.route,
-                navOptions = navOptions
-            )
-        })
-        DrawerItem(
-            text = "Favorites",
-            iconRes = R.drawable.ic_favorite_24,
-            counterText = null,
-            onClick = {
-                navController.navigate(
-                    route = MainNavigation.Favorites.route,
-                    navOptions = navOptions
-                )
-            })
-        DrawerItem(text = "Cart", iconRes = R.drawable.ic_cart_24, counterText = null, onClick = {
-            navController.navigate(
-                route = MainNavigation.Cart.route,
-                navOptions = navOptions
-            )
-        })
-        DrawerItem(
-            text = "Profile",
-            iconRes = R.drawable.ic_profile_24,
-            counterText = null,
-            onClick = {
-                navController.navigate(
-                    route = MainNavigation.Profile.route,
-                    navOptions = navOptions
-                )
-            })
-        DrawerItem(
-            text = "Orders",
-            iconRes = R.drawable.ic_orders_24,
-            counterText = null,
-            onClick = {
-                navController.navigate(
-                    route = MainNavigation.Orders.route,
-                    navOptions = navOptions
-                )
-            })
-        DrawerItem(
-            text = "Notifications",
-            iconRes = R.drawable.ic_notifications_24,
-            counterText = null,
-            onClick = {
-                navController.navigate(
-                    route = MainNavigation.Notifications.route,
-                    navOptions = navOptions
-                )
-            })
+        drawerState?.destinations?.groupBy { it.inBottomSection }?.let {
+            val drawerItemCall: @Composable (dest:DestinationWithCounter) -> Unit = { dest ->
+                DrawerItem(
+                    text = stringResource(id = dest.destination.nameRes),
+                    iconRes = dest.destination.iconRes,
+                    counterText = dest.counterValue,
+                    onClick = {
+                        if (dest.isHomeDest) {
+                            navController.popBackStack(dest.destination.route, false)
+                        } else {
+                            navController.navigate(
+                                route = dest.destination.route,
+                                navOptions = navOptions
+                            )
+                        }
+                    })
+            }
+            it[false]?.forEach {dest ->
+                drawerItemCall(dest)
+            }
+            it[true]?.let { destinations ->
+                Spacer(modifier = Modifier.weight(1f))
+                destinations.forEach { dest ->
+                    drawerItemCall(dest)
+                }
+            }
+        }
     }
 }
 
@@ -109,19 +110,36 @@ fun DrawerComponent(navController: NavHostController = rememberNavController()) 
 @Composable
 fun DrawerPreview() {
     SBDeliveryTheme() {
-        DrawerComponent()
+        DrawerComponent(
+            drawerState = DrawerState(
+                fullName = "Сидоров Иван",
+                email = "serzh272@mail.ru",
+                destinations = listOf(
+                    DestinationWithCounter(MainNavigationDestination.Main, isHomeDest = true),
+                    DestinationWithCounter(MainNavigationDestination.Menu),
+                    DestinationWithCounter(MainNavigationDestination.Favorites),
+                    DestinationWithCounter(MainNavigationDestination.Cart, counterValue = "+5"),
+                    DestinationWithCounter(MainNavigationDestination.Profile),
+                    DestinationWithCounter(MainNavigationDestination.Orders),
+                    DestinationWithCounter(MainNavigationDestination.Notifications),
+                    DestinationWithCounter(MainNavigationDestination.About, inBottomSection = true),
+                )
+            ),
+            onLogoutClick = {/*TODO*/}
+        )
     }
 }
 
 @Composable
 fun DrawerItem(
+    modifier: Modifier = Modifier,
     text: String,
     @DrawableRes iconRes: Int,
     counterText: String? = null,
     onClick: () -> Unit
 ) {
     Row(
-        Modifier
+        modifier
             .clickable {
                 onClick()
             }
