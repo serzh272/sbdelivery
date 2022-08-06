@@ -6,6 +6,7 @@ import androidx.navigation.NavDirections
 import androidx.navigation.NavOptions
 import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.Navigator
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -14,8 +15,12 @@ import kotlinx.coroutines.launch
 import ru.skillbranch.sbdelivery.domain.model.DestinationWithCounter
 import ru.skillbranch.sbdelivery.domain.model.DrawerState
 import ru.skillbranch.sbdelivery.presentation.navigation.navgraph.MainNavigationDestination
+import javax.inject.Inject
 
-class MainViewModel: ViewModel() {
+@HiltViewModel
+class MainViewModel @Inject constructor(
+
+): ViewModel() {
 
     companion object{
 

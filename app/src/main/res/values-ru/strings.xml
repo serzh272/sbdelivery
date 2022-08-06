@@ -8,4 +8,12 @@
     <string name="orders">Заказы</string>
     <string name="notifications">Уведомления</string>
     <string name="about">О программе</string>
+    <string name="server_error">Ошибка сервера</string>
+    <string name="unknown_host_error">Неизвестный хост</string>
+    <string name="connection_error">Ошибка подключения</string>
+    <string name="service_unavailable">Служба недоступна</string>
+    <string name="password">Пароль</string>
+    <string name="sign_in">Войти</string>
+    <string name="sign_up">Регистрация</string>
+    <string name="forgot_password">Забыли пароль?</string>
 </resources>

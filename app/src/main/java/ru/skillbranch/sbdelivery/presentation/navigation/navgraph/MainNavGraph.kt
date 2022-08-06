@@ -4,16 +4,21 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import ru.skillbranch.sbdelivery.R
+import ru.skillbranch.sbdelivery.presentation.home.HomeViewModel
 import ru.skillbranch.sbdelivery.presentation.root.*
 
 @Composable
 fun MainNavGraph(modifier: Modifier = Modifier, navController: NavHostController) {
     NavHost(navController, startDestination = MainNavigationDestination.Main.route, modifier = modifier) {
-        composable(MainNavigationDestination.Main.route) { MainScreen(navController) }
+        composable(MainNavigationDestination.Main.route) {
+            val viewModel = hiltViewModel<HomeViewModel>()
+            HomeScreen(navController, viewModel)
+        }
         composable(MainNavigationDestination.Menu.route) { MenuScreen(navController) }
         composable(MainNavigationDestination.Favorites.route) { FavoritesScreen(navController) }
         composable(MainNavigationDestination.Cart.route) { CartScreen(navController) }
@@ -27,8 +32,7 @@ fun MainNavGraph(modifier: Modifier = Modifier, navController: NavHostController
 sealed class MainNavigationDestination(
     val route: String,
     @DrawableRes val iconRes: Int,
-    @StringRes val nameRes: Int,
-    open val counter: String? = null
+    @StringRes val nameRes: Int
 ) {
     object Main : MainNavigationDestination("main", R.drawable.ic_home_24, R.string.main)
     object Menu : MainNavigationDestination("menu", R.drawable.ic_menu_24, R.string.menu)

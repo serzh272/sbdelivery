@@ -20,11 +20,14 @@ import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.launch
 import ru.skillbranch.sbdelivery.R
 import ru.skillbranch.sbdelivery.presentation.component.DrawerComponent
+import ru.skillbranch.sbdelivery.presentation.home.HomeViewModel
 import ru.skillbranch.sbdelivery.presentation.main.MainViewModel
+import ru.skillbranch.sbdelivery.presentation.navigateWithClearingBackStack
 import ru.skillbranch.sbdelivery.presentation.navigation.navgraph.MainNavGraph
+import ru.skillbranch.sbdelivery.presentation.navigation.navgraph.RootNavigation
 
 @Composable
-fun AppScreen(rootNavController: NavHostController, viewModel: MainViewModel = viewModel()) {
+fun RootScreen(rootNavController: NavHostController, viewModel: MainViewModel = viewModel(), rootViewModel: RootViewModel = viewModel()) {
     val scaffoldState = rememberScaffoldState()
     val navController = rememberNavController()
     val scope = rememberCoroutineScope()
@@ -32,24 +35,34 @@ fun AppScreen(rootNavController: NavHostController, viewModel: MainViewModel = v
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            TopAppBar {
-                IconButton(onClick = {
-                    scope.launch {
-                        scaffoldState.drawerState.open()
+            TopAppBar(
+                title = {
+                    Text(text = "Main", fontSize = 22.sp)
+                },
+                navigationIcon = {
+                    IconButton(onClick = {
+                        scope.launch {
+                            scaffoldState.drawerState.open()
+                        }
+                    }) {
+                        Image(
+                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_burger_24),
+                            contentDescription = "Navigate Up Button"
+                        )
                     }
-                }) {
-                    Image(
-                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_burger_24),
-                        contentDescription = "Navigate Up Button"
-                    )
                 }
-                Text(text = "Main", fontSize = 22.sp)
-            }
+            )
         },
         drawerContent = {
             DrawerComponent(navController,
                 drawerState = drawerState,
-                onLogoutClick = {/*TODO*/ })
+                onLogoutClick = {
+                    scope.launch {
+                        rootViewModel.logout()
+                        rootNavController.navigateWithClearingBackStack(route = RootNavigation.Login.route)
+                    }
+                }
+            )
         },
         modifier = Modifier.fillMaxSize()
     ) {
@@ -58,7 +71,7 @@ fun AppScreen(rootNavController: NavHostController, viewModel: MainViewModel = v
 }
 
 @Composable
-fun MainScreen(navController: NavHostController) {
+fun HomeScreen(navController: NavHostController, viewModel: HomeViewModel) {
     Text(
         text = "Main Screen",
         modifier = Modifier

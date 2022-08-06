@@ -23,7 +23,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import androidx.navigation.NavOptions
 import androidx.navigation.compose.rememberNavController
 import ru.skillbranch.sbdelivery.R
 import ru.skillbranch.sbdelivery.domain.model.DestinationWithCounter
@@ -56,7 +55,7 @@ fun DrawerComponent(navController: NavHostController = rememberNavController(), 
         }
         Spacer(modifier = Modifier.weight(1f))
         IconButton(
-            onClick = { /*TODO*/ },
+            onClick = { onLogoutClick() },
             modifier = Modifier
                 .wrapContentWidth(Alignment.End)
                 .align(Alignment.Bottom)
@@ -73,9 +72,6 @@ fun DrawerComponent(navController: NavHostController = rememberNavController(), 
             .fillMaxSize()
             .padding(bottom = 12.dp)
     ) {
-        val navOptions = NavOptions.Builder()
-            .setLaunchSingleTop(true)
-            .build()
         drawerState?.destinations?.groupBy { it.inBottomSection }?.let {
             val drawerItemCall: @Composable (dest:DestinationWithCounter) -> Unit = { dest ->
                 DrawerItem(
@@ -87,9 +83,10 @@ fun DrawerComponent(navController: NavHostController = rememberNavController(), 
                             navController.popBackStack(dest.destination.route, false)
                         } else {
                             navController.navigate(
-                                route = dest.destination.route,
-                                navOptions = navOptions
-                            )
+                                route = dest.destination.route
+                            ){
+                                launchSingleTop = true
+                            }
                         }
                     })
             }
