@@ -11,6 +11,7 @@ import androidx.navigation.navigation
 import ru.skillbranch.sbdelivery.presentation.login.SignInScreen
 import ru.skillbranch.sbdelivery.presentation.login.SignInViewModel
 import ru.skillbranch.sbdelivery.presentation.login.SignUpScreen
+import ru.skillbranch.sbdelivery.presentation.login.SignUpViewModel
 import ru.skillbranch.sbdelivery.presentation.root.RootScreen
 import ru.skillbranch.sbdelivery.presentation.root.RootViewModel
 import ru.skillbranch.sbdelivery.presentation.splash.SplashScreen
@@ -34,11 +35,12 @@ fun RootNavGraph(rootNavController: NavHostController, rootViewModel: RootViewMo
             route = RootNavigation.Login.route
         ) {
             composable(LoginNavigation.SignIn.route) {
-                val signInViewModel: SignInViewModel = hiltViewModel()
-                SignInScreen(rootNavController, signInViewModel)
+                val viewModel: SignInViewModel = hiltViewModel()
+                SignInScreen(rootNavController, viewModel)
             }
             composable(LoginNavigation.SignUp.route) {
-                SignUpScreen(rootNavController)
+                val viewModel: SignUpViewModel = hiltViewModel()
+                SignUpScreen(rootNavController, viewModel)
             }
         }
     }

@@ -47,7 +47,7 @@ fun RootScreen(rootNavController: NavHostController, viewModel: MainViewModel = 
                     }) {
                         Image(
                             imageVector = ImageVector.vectorResource(id = R.drawable.ic_burger_24),
-                            contentDescription = "Navigate Up Button"
+                            contentDescription = "Hamburger menu button"
                         )
                     }
                 }

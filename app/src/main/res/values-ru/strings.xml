@@ -16,4 +16,10 @@
     <string name="sign_in">Войти</string>
     <string name="sign_up">Регистрация</string>
     <string name="forgot_password">Забыли пароль?</string>
+    <string name="enter">Вход</string>
+    <string name="first_name">Имя</string>
+    <string name="last_name">Фамилия</string>
+    <string name="name_placeholder">Иван</string>
+    <string name="last_name_placeholder">Петров</string>
+    <string name="register">Зарегистрироваться</string>
 </resources>

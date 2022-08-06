@@ -10,7 +10,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ru.skillbranch.sbdelivery.data.datasource.LoadResult
-import ru.skillbranch.sbdelivery.presentation.navigateWithClearingBackStack
 import ru.skillbranch.sbdelivery.presentation.navigation.navgraph.RootNavGraph
 import ru.skillbranch.sbdelivery.presentation.navigation.navgraph.RootNavigation
 import ru.skillbranch.sbdelivery.presentation.root.RootViewModel
@@ -25,22 +24,44 @@ class MainActivity : ComponentActivity() {
                 val rootNavController = rememberNavController()
                 val rootViewModel = viewModel<RootViewModel>()
                 val loadResultFlow by rootViewModel.profileFlow.collectAsState(initial = LoadResult.Load())
+
                 loadResultFlow.let { res ->
                     when(res){
                         is LoadResult.Load -> {
-                            LaunchedEffect(Unit){
-                                rootNavController.navigate(RootNavigation.Splash.route)
+                            if (rootViewModel.isAuthorized){
+                                LaunchedEffect(Unit){
+                                    rootNavController.navigate(RootNavigation.Splash.route){
+                                        launchSingleTop = true
+                                        popUpTo(RootNavigation.Login.route){
+                                            inclusive = true
+                                        }
+                                    }
+                                }
                             }
                         }
                         is LoadResult.Success -> {
-                            LaunchedEffect(res.data){
-                                rootNavController.navigateUp()
-                            }
+                                LaunchedEffect(res.data){
+                                    rootNavController.navigate(RootNavigation.Root.route){
+                                        launchSingleTop = true
+                                        popUpTo(RootNavigation.Root.route){
+                                            inclusive = true
+                                        }
+                                    }
+                                }
+                            rootViewModel.isAuthorized = true
                         }
                         is LoadResult.Error -> {
-                            LaunchedEffect(res.error){
-                                rootNavController.navigateWithClearingBackStack(route = RootNavigation.Login.route)
+                            if (rootViewModel.isAuthorized){
+                                LaunchedEffect(res.error){
+                                    rootNavController.navigate(route = RootNavigation.Login.route){
+                                        launchSingleTop = true
+                                        popUpTo(RootNavigation.Root.route){
+                                            inclusive = true
+                                        }
+                                    }
+                                }
                             }
+                            rootViewModel.isAuthorized = false
                         }
                     }
                 }

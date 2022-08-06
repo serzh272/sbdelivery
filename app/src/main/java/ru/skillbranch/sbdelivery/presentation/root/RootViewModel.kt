@@ -13,9 +13,11 @@ class RootViewModel @Inject constructor(
     private val logoutUseCase: LogoutUseCase,
 ): ViewModel() {
     val profileFlow = getProfileUseCase()
+    var isAuthorized = false
 
     suspend fun logout(){
         logoutUseCase()
+        isAuthorized = false
     }
     override fun onCleared() {
         Log.d("M_RootViewModel", "cleared")

@@ -17,4 +17,12 @@
     <string name="sign_in">Sign in</string>
     <string name="sign_up">Sign up</string>
     <string name="forgot_password">Forgot password?</string>
+    <string name="email_placeholder" translatable="false">user@example.com</string>
+    <string name="password_placeholder" translatable="false">1234~pass</string>
+    <string name="enter">Enter</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="name_placeholder">John</string>
+    <string name="last_name_placeholder">Doe</string>
+    <string name="register">Sign up</string>
 </resources>
