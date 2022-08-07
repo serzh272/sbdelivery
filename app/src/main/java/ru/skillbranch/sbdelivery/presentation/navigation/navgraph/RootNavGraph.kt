@@ -36,7 +36,7 @@ fun RootNavGraph(rootNavController: NavHostController, rootViewModel: RootViewMo
         ) {
             composable(LoginNavigation.SignIn.route) {
                 val viewModel: SignInViewModel = hiltViewModel()
-                SignInScreen(rootNavController, viewModel)
+                SignInScreen(rootNavController, viewModel, rootViewModel)
             }
             composable(LoginNavigation.SignUp.route) {
                 val viewModel: SignUpViewModel = hiltViewModel()

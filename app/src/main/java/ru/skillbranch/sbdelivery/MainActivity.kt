@@ -28,7 +28,7 @@ class MainActivity : ComponentActivity() {
                 loadResultFlow.let { res ->
                     when(res){
                         is LoadResult.Load -> {
-                            if (rootViewModel.isAuthorized){
+                            if (!rootViewModel.isLaunched){
                                 LaunchedEffect(Unit){
                                     rootNavController.navigate(RootNavigation.Splash.route){
                                         launchSingleTop = true
@@ -40,18 +40,20 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                         is LoadResult.Success -> {
-                                LaunchedEffect(res.data){
-                                    rootNavController.navigate(RootNavigation.Root.route){
+                            if (!rootViewModel.isLaunched) {
+                                LaunchedEffect(res.data) {
+                                    rootNavController.navigate(RootNavigation.Root.route) {
                                         launchSingleTop = true
-                                        popUpTo(RootNavigation.Root.route){
+                                        popUpTo(RootNavigation.Root.route) {
                                             inclusive = true
                                         }
                                     }
                                 }
-                            rootViewModel.isAuthorized = true
+                                rootViewModel.isLaunched = true
+                            }
                         }
                         is LoadResult.Error -> {
-                            if (rootViewModel.isAuthorized){
+                            if (!rootViewModel.isLaunched){
                                 LaunchedEffect(res.error){
                                     rootNavController.navigate(route = RootNavigation.Login.route){
                                         launchSingleTop = true
@@ -60,8 +62,8 @@ class MainActivity : ComponentActivity() {
                                         }
                                     }
                                 }
+                                rootViewModel.isLaunched = true
                             }
-                            rootViewModel.isAuthorized = false
                         }
                     }
                 }

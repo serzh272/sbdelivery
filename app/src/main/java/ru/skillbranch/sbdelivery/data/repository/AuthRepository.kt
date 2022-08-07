@@ -1,5 +1,6 @@
 package ru.skillbranch.sbdelivery.data.repository
 
+import kotlinx.coroutines.flow.firstOrNull
 import ru.skillbranch.sbdelivery.data.datasource.local.datastore.PreferenceManager
 import ru.skillbranch.sbdelivery.data.datasource.remote.api.ApiResponse
 import ru.skillbranch.sbdelivery.data.datasource.remote.api.RestApiClient
@@ -12,6 +13,10 @@ class AuthRepository @Inject constructor(
     private val restApiClient: RestApiClient,
     private val preferenceManager: PreferenceManager,
 ) {
+
+    suspend fun getAccessToken():String?{
+        return preferenceManager.accessTokenFlow.firstOrNull()
+    }
 
     suspend fun getProfile(): ApiResponse<ProfileInfoDto>{
         return restApiClient.use {

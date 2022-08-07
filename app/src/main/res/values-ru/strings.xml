@@ -22,4 +22,6 @@
     <string name="name_placeholder">Иван</string>
     <string name="last_name_placeholder">Петров</string>
     <string name="register">Зарегистрироваться</string>
+    <string name="unauthorized_error">Пользователь не авторизован</string>
+    <string name="show_all">См. все</string>
 </resources>

@@ -23,15 +23,18 @@ import androidx.navigation.NavHostController
 import kotlinx.coroutines.launch
 import ru.skillbranch.sbdelivery.R
 import ru.skillbranch.sbdelivery.data.datasource.LoadResult
+import ru.skillbranch.sbdelivery.domain.model.UserModel.Companion.toUserModel
 import ru.skillbranch.sbdelivery.presentation.component.tileBackground
 import ru.skillbranch.sbdelivery.presentation.navigateWithClearingBackStack
 import ru.skillbranch.sbdelivery.presentation.navigation.navgraph.LoginNavigation
 import ru.skillbranch.sbdelivery.presentation.navigation.navgraph.RootNavigation
+import ru.skillbranch.sbdelivery.presentation.root.RootViewModel
 
 @Composable
 fun SignInScreen(
     rootNavController: NavHostController,
-    signInViewModel: SignInViewModel = viewModel()
+    signInViewModel: SignInViewModel = viewModel(),
+    rootViewModel: RootViewModel
 ) {
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
@@ -137,6 +140,7 @@ fun SignInScreen(
                                         popToRoot = RootNavigation.Login.route,
                                         route = RootNavigation.Root.route
                                     )
+                                    rootViewModel.setUserData(it.data.toUserModel())
                                 }
                                 is LoadResult.Error -> {
                                     uiEnabled = true

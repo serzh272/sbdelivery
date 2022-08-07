@@ -25,4 +25,6 @@
     <string name="name_placeholder">John</string>
     <string name="last_name_placeholder">Doe</string>
     <string name="register">Sign up</string>
+    <string name="unauthorized_error">Unauthorized</string>
+    <string name="show_all">Show all</string>
 </resources>

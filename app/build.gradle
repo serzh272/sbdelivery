@@ -66,6 +66,9 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1'
 
+    //Glide
+    implementation "com.github.skydoves:landscapist-glide:1.6.0"
+
     //DataStore
     implementation "androidx.datastore:datastore:$datastore_version"
     implementation "androidx.datastore:datastore-preferences:$datastore_version"

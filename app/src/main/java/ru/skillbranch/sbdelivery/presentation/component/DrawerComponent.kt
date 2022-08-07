@@ -32,7 +32,12 @@ import ru.skillbranch.sbdelivery.presentation.ui.theme.SBDeliveryTheme
 
 
 @Composable
-fun DrawerComponent(navController: NavHostController = rememberNavController(), drawerState: DrawerState?, onLogoutClick: () -> Unit) = Column(
+fun DrawerComponent(
+    navController: NavHostController = rememberNavController(),
+    drawerState: DrawerState?,
+    onLogoutClick: () -> Unit,
+    onItemClick: ((MainNavigationDestination) -> Unit)? = null
+) = Column(
     modifier = Modifier
         .fillMaxSize()
 ) {
@@ -49,9 +54,13 @@ fun DrawerComponent(navController: NavHostController = rememberNavController(), 
                 .align(Alignment.Bottom)
         ) {
             Text(text = drawerState?.fullName ?: "Noname")
-            drawerState?.email?.let { Text(text = it,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Light) }
+            drawerState?.email?.let {
+                Text(
+                    text = it,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Light
+                )
+            }
         }
         Spacer(modifier = Modifier.weight(1f))
         IconButton(
@@ -73,7 +82,7 @@ fun DrawerComponent(navController: NavHostController = rememberNavController(), 
             .padding(bottom = 12.dp)
     ) {
         drawerState?.destinations?.groupBy { it.inBottomSection }?.let {
-            val drawerItemCall: @Composable (dest:DestinationWithCounter) -> Unit = { dest ->
+            val drawerItemCall: @Composable (dest: DestinationWithCounter) -> Unit = { dest ->
                 DrawerItem(
                     text = stringResource(id = dest.destination.nameRes),
                     iconRes = dest.destination.iconRes,
@@ -84,13 +93,17 @@ fun DrawerComponent(navController: NavHostController = rememberNavController(), 
                         } else {
                             navController.navigate(
                                 route = dest.destination.route
-                            ){
+                            ) {
                                 launchSingleTop = true
+                                popUpTo(MainNavigationDestination.Main.route) {
+                                    inclusive = false
+                                }
                             }
                         }
+                        onItemClick?.invoke(dest.destination)
                     })
             }
-            it[false]?.forEach {dest ->
+            it[false]?.forEach { dest ->
                 drawerItemCall(dest)
             }
             it[true]?.let { destinations ->
@@ -122,7 +135,7 @@ fun DrawerPreview() {
                     DestinationWithCounter(MainNavigationDestination.About, inBottomSection = true),
                 )
             ),
-            onLogoutClick = {/*TODO*/}
+            onLogoutClick = {/*TODO*/ }
         )
     }
 }
